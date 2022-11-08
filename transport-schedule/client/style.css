@@ -1,0 +1,77 @@
+body{
+    margin: 0;
+    padding: 0;
+    background: #cad5ff;
+}
+
+#map{
+    height: 500px;
+}
+
+.container{
+    width: 600px;
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+    .container{
+        width: calc(100% - 1px);
+    }
+}
+
+.line-1 {
+    height: 1px;
+    background: black;
+}
+
+.stops-content-container, .favorite-stops-container {
+    width: 200px;
+    border: 5px solid black;
+    background: #d9dbda;
+    border-radius: 50px;
+}
+
+.stops-container{
+    height: 250px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.button-container{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.routes-containter {
+    display: flex;
+    column-gap: 10px;
+}
+
+.gm-style-iw-d{
+    color: black;
+}
+
+.search-container{
+    margin: 10px;
+    padding-right: 60%;
+}
+
+.search-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.stop{
+    border: 1px solid black;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.hide{
+    display: none;
+}

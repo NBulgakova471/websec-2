@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport schedule</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="search-container">
+      <div class="search-wrapper">
+        <div>Поиск остановки</div>
+        <input id="search" data-search>
+      </div>
+      <div class="stops" data-stops-container></div>
+      <template data-stop-template>
+        <div class="stop">
+          <div class="title" data-title></div>
+        </div>
+      </template>
+    </div>
+
+    <div id="map"></div>
+
+    <div class="container">
+      <div class="stops-content-container">
+        <h3 style="text-align: center;">Маршрут</h3>
+          <div class="line-1"></div>
+          <div class="stops-container">
+            <ol data-ol-stops-container></ol>
+            <template data-li-stop-template>
+                <li>
+                  <u style="cursor: pointer;" data-stop></u>
+                </li>
+            </template>
+          </div>
+          <div class="line-1"></div>
+          <div class="button-container">
+            <button onclick="leaveRoute()" style="border-radius: 5px; cursor: pointer;">Покинуть маршрут</button>
+          </div>
+      </div>
+      <div class="favorite-stops-container">
+        <h3 style="text-align: center;">Сохранённые <br> остановки</h3>
+        <div class="line-1"></div>
+        <div class="stops-container">
+          <ol data-ol-favorite-stops-container></ol>
+        </div>
+      </div>
+    </div>
+ 
+    <script src="script.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5la2UtwOen4etWhnAQ6HJJAHglU2-C0w&map_ids=49a29c004abdc2f9&callback=initMap">
+    </script>
+</body>
+</html>
