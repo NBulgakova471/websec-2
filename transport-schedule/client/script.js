@@ -31,7 +31,7 @@ function initMap(){
     }
     let url = requestURL + '?' + ( new URLSearchParams( params ) ).toString();
 
-    sendRequest('GET', url) 
+    sendRequest('GET', url)
         .then(parseData)
         .then(initStops)
         .then(createFavoriteStops)

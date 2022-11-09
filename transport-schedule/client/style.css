@@ -9,14 +9,14 @@ body{
 }
 
 .container{
-    width: 600px;
+    width: 800px;
     margin: 10px auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-wrap: wrap;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     .container{
         width: calc(100% - 1px);
     }
@@ -28,10 +28,12 @@ body{
 }
 
 .stops-content-container, .favorite-stops-container {
-    width: 200px;
+    margin-top: 20px;
+    width: 300px;
     border: 5px solid black;
     background: #d9dbda;
     border-radius: 50px;
+    padding-bottom: 17px;
 }
 
 .stops-container{
@@ -41,14 +43,14 @@ body{
 }
 
 .button-container{
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 15px;
     display: flex;
     justify-content: center;
 }
 
 .routes-containter {
     display: flex;
+    flex-wrap: wrap;
     column-gap: 10px;
 }
 
@@ -58,12 +60,28 @@ body{
 
 .search-container{
     margin: 10px;
-    padding-right: 60%;
+    padding-right: 50%;
+}
+
+@media (max-width: 800px) {
+    .search-container{
+        padding-right: 5%;
+    }
 }
 
 .search-wrapper{
     display: flex;
     flex-direction: column;
+}
+
+.search-wrapper-title{
+    font-size: 1.35em;
+    font-weight: bold;
+}
+
+.search-wrapper-input{
+    height: 25px;
+    font-size: 14pt;
 }
 
 .stop{
@@ -74,4 +92,11 @@ body{
 
 .hide{
     display: none;
+}
+
+.li-item{
+    padding-right: 5px;
+    margin-top: 10px;
+    font-size: 1.3em;
+    font-weight: bold;
 }

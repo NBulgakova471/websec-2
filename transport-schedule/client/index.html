@@ -9,8 +9,8 @@
 <body>
     <div class="search-container">
       <div class="search-wrapper">
-        <div>Поиск остановки</div>
-        <input id="search" data-search>
+        <div class="search-wrapper-title">Поиск остановки</div>
+        <input class="search-wrapper-input" id="search" data-search>
       </div>
       <div class="stops" data-stops-container></div>
       <template data-stop-template>
@@ -29,7 +29,7 @@
           <div class="stops-container">
             <ol data-ol-stops-container></ol>
             <template data-li-stop-template>
-                <li>
+                <li class="li-item">
                   <u style="cursor: pointer;" data-stop></u>
                 </li>
             </template>

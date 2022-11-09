@@ -2,6 +2,8 @@ import fetch from 'node-fetch';
 import http from 'http';
 import sha1 from 'js-sha1';
 import convert from 'xml-js';
+import fs from 'fs';
+import path from 'path';
 const PORT = 5000;
 
 function sendRequest (url) {
@@ -88,52 +90,90 @@ let data = {
   favoriteStops: favoriteStops
 }
 
+const directoryName = '../client';
+
+const types = {
+  html: 'text/html',
+  css: 'text/css',
+  js: 'application/javascript',
+  png: 'image/png',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  gif: 'image/gif',
+  json: 'application/json',
+  xml: 'application/xml',
+};
+
+const root = path.normalize(path.resolve(directoryName));
+
 var server = http.createServer(async function(req, res){
     const params = new URLSearchParams(req.url.slice(1));
     let parameter = params.get('value');
     console.log('Server request');
     console.log(req.url, req.method);
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader('Content-Type', 'application/json');
 
-    if(req.method === 'POST'){
-      req.on('data', (data) => {
-        let request = JSON.parse(data);
-        if (parameter === 'addFavoriteStop'){
-          favoriteStops.push(request.favoriteStop);
+    if(!parameter){
+      const extension = path.extname(req.url).slice(1);
+      const type = extension ? types[extension] : types.html;
+
+      let fileName = req.url;
+      if (req.url === '/') fileName = 'index.html';
+      
+      const filePath = path.join(root, fileName);
+
+      fs.readFile(filePath, (err, data) => {
+        if (err) {
+          res.writeHead(404, { 'Content-Type': 'text/html' });
+          res.end('404: File not found');
+        } else {
+          res.writeHead(200, { 'Content-Type': type });
+          res.end(data);
         }
-        if (parameter === 'removeFavoriteStop'){
-          favoriteStops.pop(request.favoriteStop);
-        }
-        res.end();
       });
     }
-    if(req.method === 'GET'){
-      if(parameter === 'initMap') res.write(JSON.stringify(data));
-      if (parameter === 'getFirstArrivalToStop') {
-        let response = await getFirstArrivalToStop(params.get('ks_id'));
-        response =  JSON.parse(response);
-        let parsedData = parseDataArrival(response);
-        res.write(JSON.stringify(parsedData));
+    else{
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader('Content-Type', 'application/json');
+
+      if(req.method === 'POST'){
+        req.on('data', (data) => {
+          let request = JSON.parse(data);
+          if (parameter === 'addFavoriteStop'){
+            favoriteStops.push(request.favoriteStop);
+          }
+          if (parameter === 'removeFavoriteStop'){
+            favoriteStops.pop(request.favoriteStop);
+          }
+          res.end();
+        });
       }
-      if (parameter === 'getRouteArrivalToStop') {
-        let ks_id = params.get('ks_id');
-        let kr_id = params.get('kr_id');
-        let response = await getRouteArrivalToStop(ks_id, kr_id);
-        response =  JSON.parse(response);
-        let parsedData = parseDataArrival(response);
-        res.write(JSON.stringify(parsedData));
+      if(req.method === 'GET'){
+        if(parameter === 'initMap') res.write(JSON.stringify(data));
+        if (parameter === 'getFirstArrivalToStop') {
+          let response = await getFirstArrivalToStop(params.get('ks_id'));
+          response =  JSON.parse(response);
+          let parsedData = parseDataArrival(response);
+          res.write(JSON.stringify(parsedData));
+        }
+        if (parameter === 'getRouteArrivalToStop') {
+          let ks_id = params.get('ks_id');
+          let kr_id = params.get('kr_id');
+          let response = await getRouteArrivalToStop(ks_id, kr_id);
+          response =  JSON.parse(response);
+          let parsedData = parseDataArrival(response);
+          res.write(JSON.stringify(parsedData));
+        }
+        if (parameter === 'initRoute') {
+          let ks_id = params.get('ks_id');
+          let direction = params.get('direction');
+          let routeNumber = params.get('routeNumber');
+          let transportType = params.get('transportType');
+          let route = routesStructure["routes"]["route"];
+          let data = determineRoute(route, {ks_id, direction}, routeNumber, transportType);
+          res.write(JSON.stringify(data));
+        }
+        res.end();
       }
-      if (parameter === 'initRoute') {
-        let ks_id = params.get('ks_id');
-        let direction = params.get('direction');
-        let routeNumber = params.get('routeNumber');
-        let transportType = params.get('transportType');
-        let route = routesStructure["routes"]["route"];
-        let data = determineRoute(route, {ks_id, direction}, routeNumber, transportType);
-        res.write(JSON.stringify(data));
-      }
-      res.end();
     }
 });
 
